@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # my apps:
+    'builder',
+    'builder_auth',
 ]
 
 MIDDLEWARE = [
@@ -99,6 +103,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Authorization
+# https://docs.djangoproject.com/es/2.1/topics/auth/
+
+AUTH_USER_MODEL = 'builder_auth.CustomUser'
+LOGIN_URL = '/auth/login'
+# LOGIN_REDIRECT_URL = '/pizza/create'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

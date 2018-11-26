@@ -16,7 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from builder.views import index
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('builder/', include('builder.urls'))
+
+    path('builder/', include('builder.urls')),
+    path('auth/', include('builder_auth.urls')),
+
+    path('', index, name='index'),
 ]

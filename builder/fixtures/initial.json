@@ -1,0 +1,240 @@
+[
+  {
+    "model": "builder.Request",
+    "pk": 1,
+    "fields": {
+      "name": "Заимствование"
+  }
+  },
+  {
+    "model": "builder.Load",
+    "pk": 1,
+    "fields": {
+      "name": "1_1M"
+    }
+  },
+  {
+    "model": "builder.Load",
+    "pk": 2,
+    "fields": {
+      "name": "2_4"
+    }
+  },
+  {
+    "model": "builder.Load",
+    "pk": 3,
+    "fields": {
+      "name": "1_1MZAO"
+    }
+  },
+  {
+    "model": "builder.Load",
+    "pk": 4,
+    "fields": {
+      "name": "2_4ZAO"
+    }
+  },
+  {
+    "model": "builder.Post",
+    "pk": 1,
+    "fields": {
+      "name": "Академик-секретарь"
+    }
+  },
+  {
+    "model": "builder.Post",
+    "pk": 2,
+    "fields": {
+      "name": "Ведущий специалист"
+    }
+  },
+  {
+    "model": "builder.Post",
+    "pk": 3,
+    "fields": {
+      "name": "Заведующий кафедрой"
+    }
+  },
+  {
+    "model": "builder.Post",
+    "pk": 4,
+    "fields": {
+      "name": "Зам. академика-секретаря"
+    }
+  },
+  {
+    "model": "builder.Post",
+    "pk": 5,
+    "fields": {
+      "name": "Консультант"
+    }
+  },
+  {
+    "model": "builder.Post",
+    "pk": 6,
+    "fields": {
+      "name": "Лаборант"
+    }
+  },
+  {
+    "model": "builder.Post",
+    "pk": 7,
+    "fields": {
+      "name": "Научный консультант"
+    }
+  },
+  {
+    "model": "builder.Post",
+    "pk": 8,
+    "fields": {
+      "name": "Преподаватель"
+    }
+  },
+  {
+    "model": "builder.Post",
+    "pk": 9,
+    "fields": {
+      "name": "Редактор"
+    }
+  },
+  {
+    "model": "builder.Post",
+    "pk": 10,
+    "fields": {
+      "name": "Советник"
+    }
+  },
+  {
+    "model": "builder.Post",
+    "pk": 11,
+    "fields": {
+      "name": "Техник"
+    }
+  },
+  {
+    "model": "builder.Post",
+    "pk": 12,
+    "fields": {
+      "name": "Ученый секретарь"
+    }
+  },
+  {
+    "model": "builder.Post",
+    "pk": 13,
+    "fields": {
+      "name": "Другая должность"
+    }
+  },
+  {
+    "model": "builder.ScienceTitle",
+    "pk": 1,
+    "fields": {
+      "name": "Аспирант"
+    }
+  },
+  {
+    "model": "builder.ScienceTitle",
+    "pk": 1,
+    "fields": {
+      "name": "Ассистент"
+    }
+  },
+  {
+    "model": "builder.ScienceTitle",
+    "pk": 2,
+    "fields": {
+      "name": "Ведущий научный сотрудник"
+    }
+  },
+  {
+    "model": "builder.ScienceTitle",
+    "pk": 3,
+    "fields": {
+      "name": "Главный научный сотрудник"
+    }
+  },
+  {
+    "model": "builder.ScienceTitle",
+    "pk": 4,
+    "fields": {
+      "name": "Докторант"
+    }
+  },
+  {
+    "model": "builder.ScienceTitle",
+    "pk": 5,
+    "fields": {
+      "name": "Доцент"
+    }
+  },
+  {
+    "model": "builder.ScienceTitle",
+    "pk": 6,
+    "fields": {
+      "name": "Младший научный сотрудник"
+    }
+  },
+  {
+    "model": "builder.ScienceTitle",
+    "pk": 7,
+    "fields": {
+      "name": "Научный сотрудник"
+    }
+  },
+  {
+    "model": "builder.ScienceTitle",
+    "pk": 8,
+    "fields": {
+      "name": "Преподаватель"
+    }
+  },
+  {
+    "model": "builder.ScienceTitle",
+    "pk": 9,
+    "fields": {
+      "name": "Профессор"
+    }
+  },
+  {
+    "model": "builder.ScienceTitle",
+    "pk": 10,
+    "fields": {
+      "name": "Старший преподаватель"
+    }
+  },
+  {
+    "model": "builder.ScienceTitle",
+    "pk": 11,
+    "fields": {
+      "name": "Стажер"
+    }
+  },
+  {
+    "model": "builder.ScienceTitle",
+    "pk": 12,
+    "fields": {
+      "name": "Старший научный сотрудник"
+    }
+  },
+  {
+    "model": "builder.ScienceTitle",
+    "pk": 13,
+    "fields": {
+      "name": "Другое научное звание"
+    }
+  },
+  {
+    "model": "builder.ScienceDegree",
+    "pk": 1,
+    "fields": {
+      "name": "Доктор наук"
+    }
+  },
+  {
+    "model": "builder.ScienceDegree",
+    "pk": 2,
+    "fields": {
+      "name": "Кандидат наук"
+    }
+  }
+]
