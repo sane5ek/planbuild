@@ -21,8 +21,6 @@ from builder.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('builder/', include('builder.urls')),
+    path('', include(('builder.urls', 'builder'), namespace='builder')),
     path('auth/', include('builder_auth.urls')),
-
-    path('', index, name='index'),
 ]

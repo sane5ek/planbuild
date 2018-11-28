@@ -1,13 +1,55 @@
 {% extends 'builder/_base.html' %}
+{% block nav %}
+    <a class="navbar-brand" href="{% url 'builder:index' %}">Plan Build</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <ul class="navbar-nav ml-auto">
+            <a class="nav-link my-lg-0 py-0" href="{% url 'builder_auth:login' %}">
+                <button class="btn btn-outline-primary my-sm-0">Вход</button>
+            </a>
+            <a class="nav-link my-lg-0 py-0" href="{% url 'builder_auth:register' %}">
+                <button class="btn btn-outline-info my-sm-0">Регистрация</button>
+            </a>
+
+        </ul>
+
+    </div>
+{% endblock %}
 
 {% block content %}
 
-<h1>Register, please!</h1>
+    <div class="container d-flex flex-column align-items-center">
+        <h1 class="text-white">Регистрация</h1>
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show w-100 mt-1 mb-1" role="alert">
+                <strong>Успех! </strong>{{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        {% endif %}
+        <form action="{% url 'builder_auth:register' %}" method="POST" class="mx-auto p-3 w-50 d-inline-block">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group text-white">
+                    {{ field.label }}
+                    {{ field }}
+                    <div class="invalid-feedback">
+                        {{ field.errors }}
+                    </div>
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
 
-<form action="{% url 'builder_auth:register' %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit">
-</form>
+                </div>
 
+            {% endfor %}
+            <button type="submit" class="btn btn-outline-success w-100 mt-3">Зарегистрироваться</button>
+        </form>
+    </div>
 {% endblock %}
