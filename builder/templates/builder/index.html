@@ -1,9 +1,328 @@
 {% extends 'builder/_base.html' %}
+{% load static %}
 
 {% block content %}
+    <form class="dropzone mt-5" action="{% url 'builder:file_upload' %}" id="uploader" method="post"
+          enctype="multipart/form-data">
+        {% csrf_token %}
+    </form>
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-primary mt-5 mb-5" type="button" id="load_subj">
+            <span id="start_loading_subj">Загрузить предметы</span>
+            <span id="loading_subj"></span>
+        </button>
+
+    </div>
 
 
-<p>This is plan builder app.</p>
+    <div id="subj_tables">
+        <h2 class="text-white text-center mb-5">Выберите предметы, которые хотите добавить в индивидуальный план</h2>
+        <div class="d-flex">
+            <table class="table table-light table-hover" id="subj_table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" id="subj_num"># <i class="subj_num"></i></th>
+                    <th scope="col" id="subj_name">Предмет <i class="subj_name"> </i></th>
+                    <th scope="col" id="subj_semester">Семестр <i class="subj_semester"> </i></th>
+                    <th scope="col" id="subj_course">Курс <i class="subj_course"> </i></th>
+                </tr>
+                </thead>
+                <tbody id="subj_to_add">
+                <tr id="1">
+                    <td>2</td>
+                    <td>ФЫвыфв</td>
+                    <td>2</td>
+                    <td>1</td>
+                </tr>
+                <tr id="2">
+                    <td>1</td>
+                    <td>ыЫвыфв</td>
+                    <td>3</td>
+                    <td>4</td>
+                </tr>
+                </tbody>
+
+            </table>
+
+            <div class="w-10">
+            </div>
+            <table class="table table-light table-hover" id="sel_subj_table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" id="sel_subj_num"># <i class="sel_subj_num"></i></th>
+                    <th scope="col" id="sel_subj_name">Предмет <i class="sel_subj_name"> </i></th>
+                    <th scope="col" id="sel_subj_semester">Семестр <i class="sel_subj_semester"> </i></th>
+                    <th scope="col" id="sel_subj_course">Курс <i class="sel_subj_course"> </i></th>
+                </tr>
+                </thead>
+                <tbody id="sel_subj_to_add">
+
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+    <div class="flex-column align-items-center mt-5" id="additional_info">
+        <h3 class="text-white">При необходимости, вы можете ввести данные о курсовых и дипломных работах</h3>
+
+        <div class="d-flex mt-4 w-100 justify-content-between">
+
+            <div id="course_table" class="table-editable d-flex flex-column w-100">
+                <h4 class="text-white text-center">Курсовые работы</h4>
+                <table class="table table-light table-hover" id="course_additional">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" id="course_course">Курс</th>
+                        <th scope="col" id="course_semester">Семестр</th>
+                        <th scope="col" id="course_count">Количество</th>
+                        <th scope="col" id="course_course">Удалить</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- This is our clonable table line -->
+                    <tr class="hide">
+                        <td contenteditable="true">0</td>
+                        <td contenteditable="true">0</td>
+                        <td contenteditable="true">0</td>
+                        <td><span class="course-table-remove table-remove fas fa-trash"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button class="course-table-add btn btn-success" type="button">Добавить</button>
+            </div>
+
+            <div class="w-10"></div>
+
+            <div id="diploma_table" class="table-editable d-flex flex-column w-100">
+                <h4 class="text-white text-center">Дипломные работы</h4>
+                <table class="table table-light table-hover" id="diploma_additional">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" id="course_course">Курс</th>
+                        <th scope="col" id="course_semester">Семестр</th>
+                        <th scope="col" id="course_count">Количество</th>
+                        <th scope="col" id="course_course">Удалить</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- This is our clonable table line -->
+                    <tr class="hide">
+                        <td contenteditable="true">0</td>
+                        <td contenteditable="true">0</td>
+                        <td contenteditable="true">0</td>
+                        <td><span class="diploma-table-remove table-remove fas fa-trash"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button class="diploma-table-add btn btn-success" type="button">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-primary mt-5 mb-5" type="button" id="load_plan">
+            <span id="start_building_plan">Составить план</span>
+            <span id="building_plan"></span>
+        </button>
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script type="text/javascript">
+        Dropzone.autoDiscover = false;
+        $(document).ready(function () {
+            var swap_table = function () {
+                var parent_id = $(this).parent().attr('id');
+                var copyTable;
+                if (parent_id == 'subj_to_add') {
+                    copyTable = $('#sel_subj_to_add');
+                }
+                else {
+                    copyTable = $('#subj_to_add');
+                }
+                cloneRow = $(this).clone();
+                cloneRow.click(swap_table);
+                $(this).remove();
+                copyTable.append(cloneRow);
+            };
+
+            var table_to_json = function (table_id) {
+                var myRows = [];
+                var $headers = $(table_id + " thead tr th");
+                var $rows = $(table_id + " tbody tr").each(function (index) {
+                    $cells = $(this).find("td");
+                    myRows[index] = {};
+                    $cells.each(function (cellIndex) {
+                        var cur_value = $($headers[cellIndex]).html();
+                        if (cur_value.indexOf(' ') !== -1) {
+                            cur_value = cur_value.substring(0, cur_value.indexOf(' '));
+                        }
+                        if ($(this).html()[0] !== '<') {
+                            myRows[index][cur_value] = $(this).html();
+                        }
+                    });
+                });
+                var myObj = {};
+                myObj[table_id] = myRows;
+
+                return JSON.stringify(myObj);
+            };
 
 
+            $('#load_plan').click(function () {
+                $(this).attr('disabled', 'true');
+                $('#start_building_plan').hide();
+                $('#building_plan').css('display', 'inline-block');
+
+
+                table_to_json('#sel_subj_table');
+                table_to_json('#course_additional');
+                table_to_json('#diploma_additional');
+
+                setTimeout(function () {
+
+                    $('#start_building_plan').show();
+                    $('#building_plan').css('display', 'none');
+
+                    $('#load_plan').removeAttr('disabled');
+                }, 1000);
+            });
+
+
+            var dropzoneOptions = {
+                maxFiles: 1,
+                dictDefaultMessage: 'Нажмите чтобы выбрать файл или перетащите его сюда.',
+                paramName: "file",
+                maxFilesize: 2, // MB
+                addRemoveLinks: true,
+                init: function () {
+                    this.on("success", function (file) {
+                        console.log("success > " + file.name);
+                    });
+                }
+            };
+
+            $("#uploader").dropzone(dropzoneOptions);
+
+            $('#load_subj').click(function () {
+                $(this).attr('disabled', 'true');
+                $('#start_loading_subj').hide();
+                $('#loading_subj').css('display', 'inline-block');
+
+                $.get('{% url 'builder:load_subj' %}', {}, function (json) {
+                    var transform = {
+                        '<>': 'tr', 'id': '3', 'html': [
+                            {'<>': 'td', 'text': '${number}'},
+                            {'<>': 'td', 'text': '${subject}'},
+                            {'<>': 'td', 'text': '${semester}'},
+                            {'<>': 'td', 'text': '${course}'}
+                        ]
+                    };
+
+                    $('#subj_to_add').append(json2html.transform(json, transform));
+                    $('#subj_to_add tr').each(function () {
+                        $(this).click(swap_table);
+                    });
+
+
+                    $('#start_loading_subj').show();
+                    $('#loading_subj').css('display', 'none');
+
+                    $('#subj_tables').show();
+                    $('#load_plan').show();
+
+                    $('html, body').animate({
+                        scrollTop: $("#subj_tables").offset().top
+                    }, 1000);
+
+                    $('#additional_info').css('display', 'flex');
+                    $('#load_subj').removeAttr('disabled');
+
+                }, 'json');
+
+            });
+
+            $('#subj_num, #subj_name, #subj_semester, #subj_course, #sel_subj_num, #sel_subj_name, #sel_subj_semester, #sel_subj_course')
+                .each(function () {
+                    var table = $(this).parent().parent().parent();
+
+                    var th = $(this),
+                        thIndex = th.index(),
+                        inverse = false;
+
+                    th.click(function () {
+
+                        table.find('td').filter(function () {
+
+                            return $(this).index() === thIndex;
+
+                        }).sortElements(function (a, b) {
+
+                            if (!isNaN(Number($.text([a]))) && !isNaN(Number($.text([b])))) {
+                                if (Number($.text([a])) == Number($.text([b])))
+                                    return 0;
+
+                                return Number($.text([a])) > Number($.text([b])) ?
+                                    inverse ? -1 : 1
+                                    : inverse ? 1 : -1;
+                            } else {
+                                if ($.text([a]) == $.text([b]))
+                                    return 0;
+
+                                return $.text([a]) > $.text([b]) ?
+                                    inverse ? -1 : 1
+                                    : inverse ? 1 : -1;
+                            }
+
+                        }, function () {
+
+                            // parentNode is the element we want to move
+                            return this.parentNode;
+
+                        });
+
+                        if (inverse) {
+                            $("." + this.id).attr('class', this.id + " fas fa-arrow-down");
+                        }
+                        else {
+                            $("." + this.id).attr('class', this.id + " fas fa-arrow-up");
+                        }
+                        inverse = !inverse;
+
+                    });
+                });
+
+
+            $("#subj_to_add tr").click(swap_table);
+
+            $("#sel_subj_to_add tr").click(swap_table);
+
+
+            $('.course-table-add').click(function () {
+                var $clone = $('#course_table').find('tr.hide').clone(true).removeClass('hide table-line');
+                $('#course_table').find('table').append($clone);
+            });
+
+            $('.course-table-remove').click(function () {
+                $(this).parents('tr').detach();
+            });
+
+            $('.diploma-table-add').click(function () {
+                var $clone = $('#diploma_table').find('tr.hide').clone(true).removeClass('hide table-line');
+                $('#diploma_table').find('table').append($clone);
+            });
+
+            $('.diploma-table-remove').click(function () {
+                $(this).parents('tr').detach();
+            });
+
+
+        })
+        ;
+    </script>
 {% endblock %}

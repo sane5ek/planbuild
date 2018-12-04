@@ -82,3 +82,7 @@ class Cell(models.Model):
 
     def __str__(self):
         return 'Cell {0}:{1} for template'.format(self.column, self.row)
+
+class UploadFile(models.Model):
+    file = models.FileField(upload_to='files/%Y/%m/%d')
+    owner = models.ForeignKey('builder_auth.CustomUser', null=True, default=None, on_delete=models.SET_NULL)

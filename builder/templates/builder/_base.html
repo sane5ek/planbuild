@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="{% static 'builder/css/bootstrap.min.css' %}" />
     <link rel="stylesheet" href="{% static 'builder/css/styles.css' %}" />
+<link rel="stylesheet" href="{% static 'builder/css/dropzone.css' %}" />
+<link rel="stylesheet" href="{% static 'builder/css/all.css' %}"/>
 </head>
 
 
@@ -52,12 +54,9 @@
     {% endblock %}
   </main>
 
-<script src="{% static 'builder/js/jquery-3.3.1.min.js' %}"></script>
-<script src="{% static 'builder/js/popper.min.js' %}"></script>
-<script src="{% static 'builder/js/bootstrap.min.js' %}"></script>
 
 
-<footer class="text-white fixed-bottom">
+<footer class="text-white fixed-bottom bg-dark">
     <hr/>
     <div class="d-flex justify-content-between px-5">
         <p class="">Александр Красовский, 2018</p>
@@ -65,6 +64,16 @@
     </div>
 
 </footer>
+
+<script src="{% static 'builder/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'builder/js/popper.min.js' %}"></script>
+<script src="{% static 'builder/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'builder/js/dropzone.js' %}"></script>
+<script src="{% static 'builder/js/json2html.js' %}"></script>
+<script src="{% static 'builder/js/jquery.sortElements.js' %}"></script>
+
+{% block scripts %}
+{% endblock %}
 
 </body>
 

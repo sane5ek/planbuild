@@ -1,0 +1,78 @@
+th {
+    cursor: pointer;
+}
+
+td {
+    cursor: pointer;
+}
+
+* {
+    -moz-user-select: none; /* Mozilla Firefox */
+-ms-user-select: none; /* Internet Explorer (не поддерживается) */
+-o-user-select: none; /* Opera Presto (не поддерживается) */
+-webkit-user-select: none; /* Google Chrome, Opera Next, Safari */
+}
+
+#subj_num, #sel_subj_num {
+    max-width: 10%;
+    width: 10%;
+}
+
+#subj_semester, #sel_subj_semester {
+    max-width: 20%;
+    width: 20%;
+}
+
+#subj_course, #sel_subj_course {
+    max-width:15%;
+    width: 15%;
+}
+
+#load_subj {
+    width: 200px;
+    height:50px;
+}
+
+#subj_tables {
+    display: none;
+}
+
+.table-remove {
+  color: #700;
+  cursor: pointer;
+}
+.table-remove:hover {
+  color: #f00;
+}
+
+tr.hide {
+    display: none;
+}
+
+#additional_info {
+    display: none;
+}
+
+#load_plan {
+    width: 200px;
+    height:50px;
+    display: none;
+}
+
+#loading_subj, #building_plan {
+    background-image: url('../images/3.gif');
+    background-size:100%;
+    width: 30px;
+    height: 30px;
+    margin-top:3px;
+    background-repeat:no-repeat;
+    display: none;
+}
+
+footer {
+    z-index: 1000;
+}
+
+footer hr {
+    margin-top: 0px;
+}
