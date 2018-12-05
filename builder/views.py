@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from builder.services import handle_file
+from django.utils.encoding import smart_str
 from builder.forms import UploadFileForm
-from builder.models import UploadFile
-from builder.services import get_excel_subjects
+from builder.models import UploadFile, Subject
 
+import json
 # Create your views here.
 
 from django.http import HttpResponse
@@ -19,13 +19,11 @@ def index(request, template_name='builder/index.html'):
 
 def upload(request):
     if request.method == 'POST':
-
         form = UploadFileForm(request.POST, request.FILES)
-        print(form.errors)
         if form.is_valid():
-            file = UploadFile(file=request.FILES['file'], owner=request.user)
-            file.save()
-            print(UploadFile.objects.last())
+            new_file = UploadFile(file=request.FILES['file'], owner=request.user)
+            new_file.save()
+            new_file.convert_file_to_xlsx()
 
         response_dict = {
             'message': 'File uploaded successfully!',
@@ -33,11 +31,26 @@ def upload(request):
 
         return JsonResponse(response_dict, status=200)
 
-
 def subj(request):
     if request.method == 'GET':
-
-        path = str(UploadFile.objects.filter(owner=request.user).last().file)
-        response = get_excel_subjects(path)
+        path = UploadFile.objects.filter(owner=request.user).last().file.name
+        Subject.objects.set_objects_from_excel(path, request.user)
+        response = Subject.objects.get_objects_json(request.user)
 
         return JsonResponse(response, status=200, safe=False)
+
+def build(request):
+    if request.method == 'POST':
+        subjects = json.loads(request.POST['subjects']) # list of dicts
+        course = json.loads(request.POST['course'])
+        diploma = json.loads(request.POST['diploma'])
+        plan_path = UploadFile.objects.filter(owner=request.user).last().file.name
+        template_path = 'files/Template.xls'
+
+        # path_to_file = 'D:\\Programming\\Projects\\python\\PlanBuild\\333\\!0_Котенко_1_5_Индивидуальный план работы преподавателя.xls'
+        # with open(path_to_file,'rb') as f:
+        #     data = f.read()
+        # response = HttpResponse(data, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        # response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(path_to_file)
+        response = HttpResponse('ss')
+        return response

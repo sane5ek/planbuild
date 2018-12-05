@@ -28,18 +28,7 @@
                 </tr>
                 </thead>
                 <tbody id="subj_to_add">
-                <tr id="1">
-                    <td>2</td>
-                    <td>ФЫвыфв</td>
-                    <td>2</td>
-                    <td>1</td>
-                </tr>
-                <tr id="2">
-                    <td>1</td>
-                    <td>ыЫвыфв</td>
-                    <td>3</td>
-                    <td>4</td>
-                </tr>
+
                 </tbody>
 
             </table>
@@ -167,30 +156,40 @@
                         }
                     });
                 });
-                var myObj = {};
-                myObj[table_id] = myRows;
-
-                return JSON.stringify(myObj);
+                console.log(JSON.stringify(myRows));
+                return JSON.stringify(myRows);
             };
-
 
             $('#load_plan').click(function () {
                 $(this).attr('disabled', 'true');
                 $('#start_building_plan').hide();
                 $('#building_plan').css('display', 'inline-block');
 
+                $.ajax({
+                    url: '{% url 'builder:build_plan' %}',
+                    data: {
+                        'subjects': table_to_json('#sel_subj_table'),
+                        'course': table_to_json('#course_additional'),
+                        'diploma': table_to_json('#diploma_additional'),
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    method: 'POST',
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    success: function (data) {
+                        var a = document.createElement('a');
+                        var url = window.URL.createObjectURL(data);
+                        a.href = url;
+                        a.download = 'Индивидуальный план.xls';
+                        a.click();
+                        window.URL.revokeObjectURL(url);
 
-                table_to_json('#sel_subj_table');
-                table_to_json('#course_additional');
-                table_to_json('#diploma_additional');
-
-                setTimeout(function () {
-
-                    $('#start_building_plan').show();
-                    $('#building_plan').css('display', 'none');
-
-                    $('#load_plan').removeAttr('disabled');
-                }, 1000);
+                        $('#start_building_plan').show();
+                        $('#building_plan').css('display', 'none');
+                        $('#load_plan').removeAttr('disabled');
+                    }
+                });
             });
 
 
