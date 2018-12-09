@@ -1,10 +1,7 @@
-from django.urls import path, reverse_lazy
+from django.urls import path
+from django.contrib.auth.views import logout_then_login
 
-from django.contrib.auth.views import logout_then_login, LoginView
-from django.views.generic import CreateView
-
-from builder_auth.forms import CustomUserCreationForm
-from builder_auth.views import LoginView, CreationView
+from .views import LoginView, CreationView
 
 app_name = 'builder_auth'
 

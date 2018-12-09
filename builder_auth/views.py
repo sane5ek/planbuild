@@ -1,13 +1,12 @@
-from django.shortcuts import render
-from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from builder_auth.forms import CustomUserCreationForm
-from django.urls import reverse
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.forms.utils import ErrorList
-
 from django.contrib.auth import authenticate, login
+
+from builder_auth.forms import CustomUserCreationForm
+
+
 
 def LoginView(request, template_name='builder_auth/login.html', message=''):
     if request.user.is_authenticated:

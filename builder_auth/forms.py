@@ -2,7 +2,8 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from builder_auth.models import CustomUser
+
+from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
 

@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.utils.encoding import smart_str
-from builder.forms import UploadFileForm
-from builder.models import UploadFile, Subject
+
+from .forms import UploadFileForm
+from .models import UploadFile, Subject, Field
 
 import json
 # Create your views here.
@@ -31,6 +32,7 @@ def upload(request):
 
         return JsonResponse(response_dict, status=200)
 
+
 def subj(request):
     if request.method == 'GET':
         path = UploadFile.objects.filter(owner=request.user).last().file.name
@@ -39,13 +41,16 @@ def subj(request):
 
         return JsonResponse(response, status=200, safe=False)
 
+
 def build(request):
     if request.method == 'POST':
         subjects = json.loads(request.POST['subjects']) # list of dicts
         course = json.loads(request.POST['course'])
         diploma = json.loads(request.POST['diploma'])
-        plan_path = UploadFile.objects.filter(owner=request.user).last().file.name
-        template_path = 'files/Template.xls'
+        load_path = UploadFile.objects.filter(owner=request.user).last().file.name
+        template_path = 'files/Template.xlsx'
+
+        Field.objects.FillTemplate(subjects, course, diploma, load_path, template_path, request.user)
 
         # path_to_file = 'D:\\Programming\\Projects\\python\\PlanBuild\\333\\!0_Котенко_1_5_Индивидуальный план работы преподавателя.xls'
         # with open(path_to_file,'rb') as f:
