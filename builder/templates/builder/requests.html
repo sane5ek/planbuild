@@ -1,0 +1,98 @@
+{% extends 'builder/_base.html' %}
+{% load static %}
+{% block content %}
+    <div class="d-flex w-100 flex-column">
+        <h2 class="ml-1 text-white">Входящие</h2>
+        {% for request in request_in %}
+            <div id="request-{{ request.id }}"
+                 class="bg-light text-dark d-flex m-2 p-2 align-items-center rounded border-primary border requests">
+                <div class="sender w-25">Отправитель: {{ request.sender.email }}</div>
+                <div class="date w-25">Дата: {{ request.create_date }}</div>
+                <div class="type w-25">Тип: {% if request.type.name == 'Adopt' %}Заимствование{% endif %}</div>
+                {% if request.result is None %}
+                    <button class="btn btn-success request-success mr-5" id="{{ request.id }}">Одобрить</button>
+                    <button class="btn btn-danger request-danger" id="{{ request.id }}">Отклонить</button>
+                {% else %}
+                    {% if request.result.name == 'False' %}
+                        <div class="status w-25">Статус: Отклонено</div>
+                    {% endif %}
+                    {% if request.result.name == 'True' %}
+                        <div class="status w-25">Статус: Одобрено</div>
+                    {% endif %}
+                {% endif %}
+
+            </div>
+        {% endfor %}
+        <h2 class="ml-1 text-white">Исходящие</h2>
+        {% for request in request_out %}
+            <div id="request-{{ request.id }}"
+                 class="bg-light text-dark d-flex m-2 p-2 align-items-center rounded border-primary border requests">
+                <div class="sender w-25">Получатель: {{ request.receiver.email }}</div>
+                <div class="date w-25">Дата: {{ request.create_date }}</div>
+                <div class="type w-25">Тип: {% if request.type.name == 'Adopt' %}Заимствование{% endif %}</div>
+                {% if request.result is None %}
+                    <button class="btn btn-danger request-cancel" id="{{ request.id }}">Отменить</button>
+                {% else %}
+                    {% if request.result.name == 'False' %}
+                        <div class="status w-25">Статус: Отклонено</div>
+                    {% endif %}
+                    {% if request.result.name == 'True' %}
+                        <div class="status w-25">Статус: Одобрено</div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.request-success').each(function () {
+                $(this).click(function () {
+                    $.ajax({
+                        url: '{% url 'builder:answer_request_adopt' %}',
+                        data: {
+                            'answer': 1,
+                            'request_id': $(this).attr('id')
+                        },
+                        method: 'GET',
+                        success: function() {
+                            location.reload()
+                        }
+                    });
+                });
+            });
+            $('.request-danger').each(function () {
+                $(this).click(function () {
+                    $.ajax({
+                        url: '{% url 'builder:answer_request_adopt' %}',
+                        data: {
+                            'answer': 0,
+                            'request_id': $(this).attr('id')
+                        },
+                        method: 'GET',
+                        success: function() {
+                            location.reload()
+                        }
+                    });
+                });
+            });
+            $('.request-cancel').each(function () {
+                $(this).click(function () {
+                    $.ajax({
+                        url: '{% url 'builder:answer_request_adopt' %}',
+                        data: {
+                            'answer': 2,
+                            'request_id': $(this).attr('id')
+                        },
+                        method: 'GET',
+                        success: function() {
+                            location.reload()
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}

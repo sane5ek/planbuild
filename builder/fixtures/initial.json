@@ -1,5 +1,26 @@
 [
   {
+    "model": "builder.RequestType",
+    "pk": 1,
+    "fields": {
+      "name": "Adopt"
+    }
+  },
+  {
+    "model": "builder.RequestResultType",
+    "pk": 1,
+    "fields": {
+      "name": "True"
+    }
+  },
+  {
+    "model": "builder.RequestResultType",
+    "pk": 2,
+    "fields": {
+      "name": "False"
+    }
+  },
+  {
     "model": "builder.Load",
     "pk": 1,
     "fields": {
@@ -470,7 +491,7 @@
       "load_type": 1
     }
   },
-    {
+  {
     "model": "builder.Field",
     "pk": 21,
     "fields": {
@@ -710,7 +731,7 @@
       "load_type": 1
     }
   },
-    {
+  {
     "model": "builder.Field",
     "pk": 41,
     "fields": {
@@ -950,7 +971,7 @@
       "load_type": 1
     }
   },
-    {
+  {
     "model": "builder.Field",
     "pk": 61,
     "fields": {

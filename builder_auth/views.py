@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.forms.utils import ErrorList
 from django.contrib.auth import authenticate, login
 
-from builder_auth.forms import CustomUserCreationForm
+from builder_auth.forms import CustomUserCreationForm, CustomUserChangeForm
 
 
 
@@ -26,6 +26,28 @@ def LoginView(request, template_name='builder_auth/login.html', message=''):
         else:
             print(message)
             return render(request, template_name)
+
+
+@csrf_protect
+def ChangeView(request, template_name='builder_auth/edit.html'):
+    if not request.user.is_authenticated:
+        return redirect('/')
+    else:
+        if request.method == 'POST':
+
+            form = CustomUserChangeForm(request.POST, instance=request.user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Успешно сохранено.')
+            else:
+                pass
+            context = {'form': form}
+            return render(request, template_name, context)
+        else:
+            form = CustomUserChangeForm(instance=request.user)
+            context = {'form': form}
+            return render(request, template_name, context)
+
 
 @csrf_protect
 def CreationView(request, template_name='builder_auth/register.html'):
@@ -56,7 +78,6 @@ def CreationView(request, template_name='builder_auth/register.html'):
                         error_list.append(error)
 
                 context['errors'] = ErrorList(error_list)
-                print(context['errors'])
 
                 context['form'] = form
         else:

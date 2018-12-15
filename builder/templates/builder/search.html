@@ -1,0 +1,48 @@
+{% extends 'builder/_base.html' %}
+{% load static %}
+{% block content %}
+    <div class="d-flex w-100 flex-column">
+        {% for us in users %}
+            <div id="user-{{ us.id }}"
+                 class="bg-light text-dark d-flex m-2 p-2 align-items-center rounded border-primary border">
+                <div class="last_name w-25">Фамилия: {{ us.last_name }}</div>
+                <div class="first_name w-25">Имя: {{ us.first_name }}</div>
+
+                <div class="email w-25">Email: {{ us.email }}</div>
+                <div class="fields w-25">Поля:
+                    {% if us.adopted_fields is None %}
+                        Поля по умолчанию
+                    {% else %}
+                        {% if us.adopted_fields == us %}
+                            Персональные поля
+                        {% else %}
+                            Поля пользователя {{ us.adopted_fields.email }}
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+                    <button class="btn btn-success request" id="{{ us.adopted_fields.id }}">Заимствовать</button>
+
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.request').each(function () {
+                $(this).click(function () {
+                    $(this).text("Запрошено");
+                    $.ajax({
+                        url: '{% url 'builder:request_adopt' %}',
+                        data: {
+                            'adopt': $(this).attr('id')
+                        },
+                        method: 'GET'
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}

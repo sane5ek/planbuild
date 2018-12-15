@@ -8,6 +8,9 @@ class UserManager(BaseUserManager):
 
     use_in_migrations = True
 
+    def get_queryset(self):
+        return super(UserManager, self).get_queryset().select_related('science_degree', 'science_title', 'post')
+
     def _create_user(self, email, password, **extra_fields):
         """Create and save a User with the given email and password."""
         if not email:
@@ -53,3 +56,4 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+

@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import CustomUser
 
+
 class CustomUserCreationForm(UserCreationForm):
 
     error_messages = {
@@ -35,8 +36,6 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['password1'].label = 'Пароль'
         self.fields['password2'].label = 'Подтверждение пароля'
 
-
-
         self.fields['password1'].help_text = mark_safe('<ul><li>Ваш пароль не может быть похож на другую личную информацию.</li><li>Ваш пароль должен содержать хотя бы 8 символов.</li><li>Ваш пароль должен быть сложным.</li><li>Ваш пароль не может состоять только из цифр.</li></ul>')
         self.fields['password2'].help_text = mark_safe('Введите точно такой же пароль для подтверждения.')
 
@@ -50,14 +49,39 @@ class CustomUserCreationForm(UserCreationForm):
             if visible.errors:
                 visible.field.widget.attrs['class'] += ' is-invalid'
 
+
 class CustomUserChangeForm(UserChangeForm):
+
+    password = None
+    email = None
 
     class Meta:
         model = CustomUser
-        fields = ('username',)
+        fields = ('first_name', 'last_name', 'post', 'salary', 'science_degree', 'science_title')
+
+    def __init__(self, *args, **kwargs):
+        super(UserChangeForm, self).__init__(*args, **kwargs)
+
+        self.fields['first_name'].label = 'Имя'
+        self.fields['last_name'].label = 'Фамилия'
+        self.fields['post'].label = 'Должность'
+        self.fields['salary'].label = 'Ставка'
+        self.fields['science_degree'].label = 'Научная степень'
+        self.fields['science_title'].label = 'Научное звание'
+
+        self.fields['post'].empty_label = 'Выберите должность'
+        self.fields['science_degree'].empty_label = 'Выберите научную степень'
+        self.fields['science_title'].empty_label = 'Выберите научное звание'
+        for visible in self.visible_fields():
+
+            visible.field.widget.attrs['class'] = 'form-control mb-3 mt-1 bg-dark text-white'
+            visible.field.widget.attrs['placeholder'] = visible.label
+            if visible.errors:
+                visible.field.widget.attrs['class'] += ' is-invalid'
+
 
 class CustomAuthenticationForm(AuthenticationForm):
 
     class Meta:
-        model=CustomUser
+        model = CustomUser
         fields = ('username',)

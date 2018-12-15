@@ -1,0 +1,77 @@
+{% extends 'builder/_base.html' %}
+{% load static %}
+{% block content %}
+    <div class="d-flex w-100">
+        <form action="{% url 'builder:edit_fields' %}" method="post" class="w-100" id="fields_form">
+            {% csrf_token %}
+            {{ forms.management_form }}
+            <div class="d-flex align-items-center flex-column">
+                <div class="alert alert-primary text-center" role="alert">
+                    {% if user.adopted_fields is None %}
+                        Вы используете поля по умолчанию. Сохраните, чтобы создать свои поля.
+                    {% else %}
+                        {% if user.adopted_fields == user %}
+                            Вы используете свои поля. Пользователи могут заимствовать настройки ниже. Чтобы вернуть настройки по умолчанию, нажмите <a href="{% url 'builder:default_fields' %}">сюда</a>.
+                        {% else %}
+                            Вы используете поля пользователя {{ user.adopted_fields.first_name }} {{ user.adopted_fields.last_name }}, {{ user.adopted_fields.email }}.<br>При сохранении, вы скопируете его поля, а не редактируете.<br>
+                            Чтобы вернуть настройки по умолчанию, нажмите <a href="{% url 'builder:default_fields' %}">сюда</a>.
+                        {% endif %}
+                    {% endif %}
+
+
+                </div>
+                <table class="table table-light table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" id="field_name_in_load">Имя в нагрузке <i class="subj_num"></i></th>
+                        <th scope="col" id="field_name_in_plan">Имя в плане <i class="subj_name"> </i></th>
+                        <th scope="col" id="field_column_in_load">Колонка в нагрузке <i class="subj_semester"> </i></th>
+                        <th scope="col" id="field_column_in_plan">Колонка в плане <i class="subj_course"> </i></th>
+                        <th scope="col" id="field_load_type">Тип обучения</th>
+                        <th scope="col" id="field_type_of_load">Тип документа</th>
+                    </tr>
+                    </thead>
+                    {% for form in forms %}
+                        <tr>
+                            {{ form.id }}
+                            <td>{{ form.name_in_load }}</td>
+                            <td>
+                                <input type="text" value="{{ form.name_in_plan.value }}" disabled>
+                                <div class="d-none">{{ form.name_in_plan }}</div>
+                            </td>
+                            <td>{{ form.column_in_load }}</td>
+                            <td>
+                                <input type="number" value="{{ form.column_in_plan.value }}" disabled>
+                                <div class="d-none">{{ form.column_in_plan }}</div>
+                            </td>
+                            <td>{% if form.load_type.value %}Договор{% else %}Бюджет{% endif %}
+                                <div class="d-none">{{ form.load_type }}</div>
+                            </td>
+                            <td>
+                                <input type="text"
+                                       value="{% if form.type_of_load.value == 1 %}1_1М{% endif %}{% if form.type_of_load.value == 2 %}2_4{% endif %}{% if form.type_of_load.value == 3 %}1_1М ЗАО{% endif %}{% if form.type_of_load.value == 4 %}2_4 ЗАО{% endif %}"
+                                       disabled>
+                                <div class="d-none">{{ form.type_of_load }}</div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <button id="save" class="btn btn-success m-1" type="submit"><span
+                        id="start_save_fields">Сохранить</span><span id="save_fields"></span></button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#save').on('click', function(event) {
+                $(this).attr('disabled', 'true');
+                $('#start_save_fields').hide();
+                $('#save_fields').css('display', 'inline-block');
+                $('#fields_form').submit();
+            });
+        });
+    </script>
+{% endblock %}

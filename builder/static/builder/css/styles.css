@@ -59,7 +59,7 @@ tr.hide {
     display: none;
 }
 
-#loading_subj, #building_plan {
+#loading_subj, #building_plan, #save_fields {
     background-image: url('../images/3.gif');
     background-size:100%;
     width: 30px;
@@ -69,6 +69,11 @@ tr.hide {
     display: none;
 }
 
+#save {
+    height: 50px;
+    width:200px;
+}
+
 footer {
     z-index: 1000;
 }
@@ -76,3 +81,8 @@ footer {
 footer hr {
     margin-top: 0px;
 }
+
+.requests {
+    height:50px;
+}
+

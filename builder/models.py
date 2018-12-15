@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.files import File
 
 from .utils import get_absolute_path
 
@@ -12,6 +13,7 @@ from xlwings.constants import InsertShiftDirection
 
 from copy import copy
 import re
+import os
 
 
 # Create your models here.
@@ -31,8 +33,8 @@ class Request(models.Model):
     receiver = models.ForeignKey('builder_auth.CustomUser', related_name='Request_receiver', null=False, default=0,
                                  on_delete=models.CASCADE)
     type = models.ForeignKey('builder.RequestType', null=False, default=0, on_delete=models.CASCADE)
-    create_date = models.DateField('Date of setting sender request', null=False, default="1998-04-11")
-    answer_date = models.DateField('Date of getting receiver answer', null=True, default=None)
+    create_date = models.DateTimeField('Date of setting sender request', null=False, default=timezone.now())
+    answer_date = models.DateTimeField('Date of getting receiver answer', null=True, default=None)
     result = models.ForeignKey('builder.RequestResultType', null=True, default=None, on_delete=models.SET_NULL)
 
     def __str__(self):
@@ -79,16 +81,11 @@ class ScienceTitle(models.Model):
 
 
 class FieldManager(models.Manager):
+
     def FillTemplate(self, subjects, courses, diplomas, load_filename, template_filename, user):
 
         # print(template_filename)
-        destiny_filename = 'files/templates/Plan_{0}_{1}.xlsm'.format(user.id, str(timezone.now().date()))
-
-        # xls to xlsx
-
-        print(subjects)
-        print(courses)
-        print(diplomas)
+        destiny_filename = 'Plan_{0}_{1}.xlsm'.format(user.id, str(timezone.now().date()))
 
         # receive type of load
 
@@ -161,9 +158,14 @@ class FieldManager(models.Manager):
         first_semester_load_worksheet = plan_workbook.worksheets[1]
         second_semester_load_worksheet = plan_workbook.worksheets[2]
 
-        # УЗНАТЬ СТРОКИ ДЛЯ ВСТАВКИ ПРЕДМЕТОВ
+        # какие столбцы с формулами изменить
+        start = fields.filter(name_in_load='Лекций')[0].column_in_plan
+        # end = fields.filter(name_in_plan='ВСЕГО')[0].column_in_plan
+        end = 24
 
+        # УЗНАТЬ СТРОКИ ДЛЯ ВСТАВКИ ПРЕДМЕТОВ
         for subject in subjects:
+            rows_to_insert = [0, 0]
             load_row = int(subject['#'])
             selection = fields.filter(name_in_load='Контингент')
 
@@ -172,16 +174,24 @@ class FieldManager(models.Manager):
             contract = int(load_worksheet.cell(load_row, selection[1].column_in_load).value)
 
             # выбираем строки для вставки
-            rows_to_insert = [0, 0]
+
+            if int(subject['Семестр']) % 2 == 0:
+                # второй семестр
+                semester = second_semester
+                worksheet = second_semester_load_worksheet
+            else:
+                # первый семестр
+                semester = first_semester
+                worksheet = first_semester_load_worksheet
 
             load_type = 0
             if budget != 0:
                 load_type = 0
                 # если бюджет и дневное
-                if type_of_load_id % 2 == 0:
+                if type_of_load_id <= 2:
                     if int(subject['Семестр']) % 2 == 0:
                         # второй семестр
-                        rows_to_insert[1] = second_semester['total_day_budget'] - 1
+                        rows_to_insert[0] = second_semester['total_day_budget'] - 1
                     else:
                         # первый семестр
                         rows_to_insert[0] = first_semester['total_day_budget'] - 1
@@ -189,21 +199,27 @@ class FieldManager(models.Manager):
                 else:
                     if int(subject['Семестр']) % 2 == 0:
                         # второй семестр
-                        rows_to_insert[1] = second_semester['total_night_budget'] - 1
+                        rows_to_insert[0] = second_semester['total_night_budget'] - 1
                     else:
                         # первый семестр
                         rows_to_insert[0] = first_semester['total_night_budget'] - 1
 
+            # инкрементируем все поля
+            if rows_to_insert[0] != 0:
+                for key in semester:
+                    if semester[key] > rows_to_insert[0]:
+                        semester[key] += 1
+
             if contract != 0:
                 load_type = 1
                 # если договор и дневное
-                if type_of_load_id % 2 == 0:
+                if type_of_load_id <= 2:
                     if int(subject['Семестр']) % 2 == 0:
                         # второй семестр
                         rows_to_insert[1] = second_semester['total_day_contract'] - 1
                     else:
                         # первый семестр
-                        rows_to_insert[0] = first_semester['total_day_contract'] - 1
+                        rows_to_insert[1] = first_semester['total_day_contract'] - 1
                     # если бюджет и заочное
                 else:
                     if int(subject['Семестр']) % 2 == 0:
@@ -211,304 +227,396 @@ class FieldManager(models.Manager):
                         rows_to_insert[1] = second_semester['total_night_contract'] - 1
                     else:
                         # первый семестр
-                        rows_to_insert[0] = first_semester['total_night_contract'] - 1
+                        rows_to_insert[1] = first_semester['total_night_contract'] - 1
 
             # инкрементируем все поля
+            if rows_to_insert[1] != 0:
+                for key in semester:
+                    if semester[key] > rows_to_insert[1]:
+                        semester[key] += 1
 
             if rows_to_insert[0] != 0:
-                for key in first_semester:
-                    if first_semester[key] > rows_to_insert[0]:
-                        first_semester[key] += 1
+                self._fill_subject_row(fields, load_worksheet, worksheet, load_row, rows_to_insert[0], 0,
+                                       subject)
             if rows_to_insert[1] != 0:
-                for key in second_semester:
-                    if second_semester[key] > rows_to_insert[1]:
-                        second_semester[key] += 1
-
-            # какие столбцы с формулами изменить
-            start = fields.filter(name_in_load='Лекций')[0].column_in_plan
-            # end = fields.filter(name_in_plan='ВСЕГО')[0].column_in_plan
-            end = 24
-
-            if rows_to_insert[0] != 0:
-                    self._fill_subject_row(fields, load_worksheet, first_semester_load_worksheet, load_row, rows_to_insert[0], load_type,
-                                           subject)
-            if rows_to_insert[1] != 0:
-                    self._fill_subject_row(fields, load_worksheet, second_semester_load_worksheet, load_row, rows_to_insert[1], load_type,
-                                           subject)
-
+                self._fill_subject_row(fields, load_worksheet, worksheet, load_row, rows_to_insert[1], 1,
+                                       subject)
 
             # ЗАМЕНИТЬ ВСЕ ФОРМУЛЫ НА ТЕ, КОТОРЫЕ БУДУТ В РЕЗУЛЬТАТЕ ВСТАВКИ
-            self._change_formulas(first_semester, second_semester, first_semester_load_worksheet, second_semester_load_worksheet, start, end)
+            self._change_formulas(first_semester, second_semester, first_semester_load_worksheet,
+                                  second_semester_load_worksheet, start, end)
 
-            # TODO: ЗАПОЛНИТЬ КУРСОВЫЕ И ДИПЛОМНЫЕ РАБОТЫ
+
+        # заполнить курсовые и дипломные работы
+        for course_work in courses:
+            rows_to_insert = [0, 0]
+            course = int(course_work['Курс'])
+            semester = int(course_work['Семестр'])
+            count = int(course_work['Количество'])
+            # выбираем куда вставлять
+            if course != 0 and count != 0:
+                if semester % 2 == 0:
+                    # второй семестр
+                    rows_to_insert[1] = second_semester['total_day_budget'] - 1
+                else:
+                    # первый семестр
+                    rows_to_insert[0] = first_semester['total_day_budget'] - 1
+
+                # инкрементируем все поля
+                semesters = [first_semester, second_semester]
+                print(rows_to_insert)
+                for i, row in enumerate(rows_to_insert, 0):
+                    if row != 0:
+                        for key in semesters[i]:
+                            if semesters[i][key] > row:
+                                semesters[i][key] += 1
+
+                # вставляем
+
+                self._insert_additional(course, count, rows_to_insert, fields, first_semester_load_worksheet,
+                                        second_semester_load_worksheet, 'курсовые работы', 3, 'Курсовая работа')
+
+                self._change_formulas(first_semester, second_semester, first_semester_load_worksheet,
+                                      second_semester_load_worksheet, start, end)
+
+        for diploma in diplomas:
+            rows_to_insert = [0, 0]
+            course = int(diploma['Курс'])
+            semester = int(diploma['Семестр'])
+            count = int(diploma['Количество'])
+            # выбираем куда вставлять
+            if course != 0 and count != 0:
+                if semester % 2 == 0:
+                    # второй семестр
+                    rows_to_insert[1] = second_semester['total_day_budget'] - 1
+                else:
+                    # первый семестр
+                    rows_to_insert[0] = first_semester['total_day_budget'] - 1
+
+                # инкрементируем все поля
+                semesters = [first_semester, second_semester]
+                for i, row in enumerate(rows_to_insert, 0):
+                    if row != 0:
+                        for key in semesters[i]:
+                            if semesters[i][key] > row:
+                                semesters[i][key] += 1
+                # вставляем
+                self._insert_additional(course, count, rows_to_insert, fields, first_semester_load_worksheet,
+                                        second_semester_load_worksheet, 'ВКР бакалавров', 20, 'Руководство ВКР')
+
+                self._change_formulas(first_semester, second_semester, first_semester_load_worksheet,
+                                      second_semester_load_worksheet, start, end)
+
         plan_workbook.save(destiny_filename)
+
+        new_file = PlanFile(file=File(open(destiny_filename, 'rb')), owner=user)
+        new_file.save()
+
+        if os.path.exists(destiny_filename):
+            os.remove(destiny_filename)
+        else:
+            print("The file does not exist")
+
+    def _find_cell_column_with_value(self, worksheet, cell_value):
+        for row in worksheet.iter_rows(min_col=1, min_row=1):
+            for cell in row:
+                try:
+                    if cell.value == cell_value:
+                        return cell.column
+                except:
+                    continue
+
+    def _insert_additional(self, course, count, rows_to_insert, fields, first_semester_worksheet,
+                           second_semester_worksheet, hours_filter, hours_multi, type):
+        course_col = fields.filter(name_in_plan__contains='курс').first().column_in_plan
+        count_col = fields.filter(name_in_plan__contains='студент').first().column_in_plan
+
+        worksheet = first_semester_worksheet
+        row = rows_to_insert[0]
+        if rows_to_insert[1] != 0:
+            worksheet = second_semester_worksheet
+            row = rows_to_insert[1]
+        self._insert_row_with_style(worksheet, row)
+
+        hours_col = self._find_cell_column_with_value(worksheet, hours_filter)
+
+        if not hours_col is None:
+            worksheet.cell(row, 1).value = type
+            worksheet.cell(row, course_col).value = course
+            worksheet.cell(row, count_col).value = count
+            worksheet.cell(row, hours_col).value = count * hours_multi
 
     def _change_formulas(self, first_semester, second_semester, first_worksheet, second_worksheet, start, end):
 
         for row in first_worksheet.iter_rows(min_row=first_semester['total_day_budget'], min_col=start,
-                                            max_row=first_semester['total_day_budget'], max_col=end):
+                                             max_row=first_semester['total_day_budget'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '=SUM({0}{1}:{0}{2})'.format(get_column_letter(cell.column),
-                                                          first_semester['day_budget'] + 1,
-                                                          first_semester['total_day_budget'] - 1)
+                                                              first_semester['day_budget'] + 1,
+                                                              first_semester['total_day_budget'] - 1)
                 except:
                     pass
 
         for row in first_worksheet.iter_rows(min_row=first_semester['total_day_contract'], min_col=start,
-                                            max_row=first_semester['total_day_contract'], max_col=end):
+                                             max_row=first_semester['total_day_contract'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '=SUM({0}{1}:{0}{2})'.format(get_column_letter(cell.column),
-                                                          first_semester['day_contract'] + 1,
-                                                          first_semester['total_day_contract'] - 1)
+                                                              first_semester['day_contract'] + 1,
+                                                              first_semester['total_day_contract'] - 1)
                 except:
                     pass
 
         for row in first_worksheet.iter_rows(min_row=first_semester['total_night_budget'], min_col=start,
-                                            max_row=first_semester['total_night_budget'], max_col=end):
+                                             max_row=first_semester['total_night_budget'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '=SUM({0}{1}:{0}{2})'.format(get_column_letter(cell.column),
-                                                          first_semester['night_budget'] + 1,
-                                                          first_semester['total_night_budget'] - 1)
+                                                              first_semester['night_budget'] + 1,
+                                                              first_semester['total_night_budget'] - 1)
                 except:
                     pass
 
         for row in first_worksheet.iter_rows(min_row=first_semester['total_night_contract'], min_col=start,
-                                            max_row=first_semester['total_night_contract'], max_col=end):
+                                             max_row=first_semester['total_night_contract'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '=SUM({0}{1}:{0}{2})'.format(get_column_letter(cell.column),
-                                                          first_semester['night_contract'] + 1,
-                                                          first_semester['total_night_contract'] - 1)
+                                                              first_semester['night_contract'] + 1,
+                                                              first_semester['total_night_contract'] - 1)
                 except:
                     pass
 
         for row in first_worksheet.iter_rows(min_row=first_semester['total_day'], min_col=start,
-                                            max_row=first_semester['total_day'], max_col=end):
+                                             max_row=first_semester['total_day'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '={0}{1}+{0}{2}'.format(get_column_letter(cell.column),
-                                                          first_semester['total_day_contract'],
-                                                          first_semester['total_day_budget'])
+                                                         first_semester['total_day_contract'],
+                                                         first_semester['total_day_budget'])
                 except:
                     pass
 
         for row in first_worksheet.iter_rows(min_row=first_semester['total_night'], min_col=start,
-                                            max_row=first_semester['total_night'], max_col=end):
+                                             max_row=first_semester['total_night'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '={0}{1}+{0}{2}'.format(get_column_letter(cell.column),
-                                                          first_semester['total_night_contract'],
-                                                          first_semester['total_night_budget'])
+                                                         first_semester['total_night_contract'],
+                                                         first_semester['total_night_budget'])
                 except:
                     pass
 
         for row in first_worksheet.iter_rows(min_row=first_semester['semester_budget'], min_col=start,
-                                            max_row=first_semester['semester_budget'], max_col=end):
+                                             max_row=first_semester['semester_budget'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '={0}{1}+{0}{2}'.format(get_column_letter(cell.column),
-                                                          first_semester['total_night_budget'],
-                                                          first_semester['total_day_budget'])
+                                                         first_semester['total_night_budget'],
+                                                         first_semester['total_day_budget'])
                 except:
                     pass
 
         for row in first_worksheet.iter_rows(min_row=first_semester['semester_contract'], min_col=start,
-                                            max_row=first_semester['semester_contract'], max_col=end):
+                                             max_row=first_semester['semester_contract'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '={0}{1}+{0}{2}'.format(get_column_letter(cell.column),
-                                                          first_semester['total_night_contract'],
-                                                          first_semester['total_day_contract'])
+                                                         first_semester['total_night_contract'],
+                                                         first_semester['total_day_contract'])
                 except:
                     pass
 
         for row in first_worksheet.iter_rows(min_row=first_semester['total_semester'], min_col=start,
-                                            max_row=first_semester['total_semester'], max_col=end):
+                                             max_row=first_semester['total_semester'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '={0}{1}+{0}{2}'.format(get_column_letter(cell.column),
-                                                          first_semester['semester_budget'],
-                                                          first_semester['semester_contract'])
+                                                         first_semester['semester_budget'],
+                                                         first_semester['semester_contract'])
                 except:
                     pass
 
-        #-------------------------------------------------------------> ГОВНОКООООООД
+        # -------------------------------------------------------------> ГОВНОКООООООД
 
         for row in second_worksheet.iter_rows(min_row=second_semester['total_day_budget'], min_col=start,
-                                            max_row=second_semester['total_day_budget'], max_col=end):
+                                              max_row=second_semester['total_day_budget'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '=SUM({0}{1}:{0}{2})'.format(get_column_letter(cell.column),
-                                                          second_semester['day_budget'] + 1,
-                                                          second_semester['total_day_budget'] - 1)
+                                                              second_semester['day_budget'] + 1,
+                                                              second_semester['total_day_budget'] - 1)
                 except:
                     pass
 
         for row in second_worksheet.iter_rows(min_row=second_semester['total_day_contract'], min_col=start,
-                                            max_row=second_semester['total_day_contract'], max_col=end):
+                                              max_row=second_semester['total_day_contract'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '=SUM({0}{1}:{0}{2})'.format(get_column_letter(cell.column),
-                                                          second_semester['day_contract'] + 1,
-                                                          second_semester['total_day_contract'] - 1)
+                                                              second_semester['day_contract'] + 1,
+                                                              second_semester['total_day_contract'] - 1)
                 except:
                     pass
 
         for row in second_worksheet.iter_rows(min_row=second_semester['total_night_budget'], min_col=start,
-                                            max_row=second_semester['total_night_budget'], max_col=end):
+                                              max_row=second_semester['total_night_budget'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '=SUM({0}{1}:{0}{2})'.format(get_column_letter(cell.column),
-                                                          second_semester['night_budget'] + 1,
-                                                          second_semester['total_night_budget'] - 1)
+                                                              second_semester['night_budget'] + 1,
+                                                              second_semester['total_night_budget'] - 1)
                 except:
                     pass
 
         for row in second_worksheet.iter_rows(min_row=second_semester['total_night_contract'], min_col=start,
-                                            max_row=second_semester['total_night_contract'], max_col=end):
+                                              max_row=second_semester['total_night_contract'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '=SUM({0}{1}:{0}{2})'.format(get_column_letter(cell.column),
-                                                          second_semester['night_contract'] + 1,
-                                                          second_semester['total_night_contract'] - 1)
+                                                              second_semester['night_contract'] + 1,
+                                                              second_semester['total_night_contract'] - 1)
                 except:
                     pass
 
         for row in second_worksheet.iter_rows(min_row=second_semester['total_day'], min_col=start,
-                                            max_row=second_semester['total_day'], max_col=end):
+                                              max_row=second_semester['total_day'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '={0}{1}+{0}{2}'.format(get_column_letter(cell.column),
-                                                          second_semester['total_day_contract'],
-                                                          second_semester['total_day_budget'])
+                                                         second_semester['total_day_contract'],
+                                                         second_semester['total_day_budget'])
                 except:
                     pass
 
         for row in second_worksheet.iter_rows(min_row=second_semester['total_night'], min_col=start,
-                                            max_row=second_semester['total_night'], max_col=end):
+                                              max_row=second_semester['total_night'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '={0}{1}+{0}{2}'.format(get_column_letter(cell.column),
-                                                          second_semester['total_night_contract'],
-                                                          second_semester['total_night_budget'])
+                                                         second_semester['total_night_contract'],
+                                                         second_semester['total_night_budget'])
                 except:
                     pass
 
         for row in second_worksheet.iter_rows(min_row=second_semester['semester_budget'], min_col=start,
-                                            max_row=second_semester['semester_budget'], max_col=end):
+                                              max_row=second_semester['semester_budget'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '={0}{1}+{0}{2}'.format(get_column_letter(cell.column),
-                                                          second_semester['total_night_budget'],
-                                                          second_semester['total_day_budget'])
+                                                         second_semester['total_night_budget'],
+                                                         second_semester['total_day_budget'])
                 except:
                     pass
 
         for row in second_worksheet.iter_rows(min_row=second_semester['semester_contract'], min_col=start,
-                                            max_row=second_semester['semester_contract'], max_col=end):
+                                              max_row=second_semester['semester_contract'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '={0}{1}+{0}{2}'.format(get_column_letter(cell.column),
-                                                          second_semester['total_night_contract'],
-                                                          second_semester['total_day_contract'])
+                                                         second_semester['total_night_contract'],
+                                                         second_semester['total_day_contract'])
                 except:
                     pass
 
         for row in second_worksheet.iter_rows(min_row=second_semester['total_semester'], min_col=start,
-                                            max_row=second_semester['total_semester'], max_col=end):
+                                              max_row=second_semester['total_semester'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '={0}{1}+{0}{2}'.format(get_column_letter(cell.column),
-                                                          second_semester['semester_budget'],
-                                                          second_semester['semester_contract'])
+                                                         second_semester['semester_budget'],
+                                                         second_semester['semester_contract'])
                 except:
                     pass
 
         # ТОТАЛЫ
         for row in second_worksheet.iter_rows(min_row=second_semester['total_year_budget'], min_col=start,
-                                            max_row=second_semester['total_year_budget'], max_col=end):
+                                              max_row=second_semester['total_year_budget'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '={0}{1}+\'I1\'!{0}{2}'.format(get_column_letter(cell.column),
-                                                          second_semester['semester_budget'],
-                                                          first_semester['semester_budget'])
+                                                                second_semester['semester_budget'],
+                                                                first_semester['semester_budget'])
                 except:
                     pass
 
         for row in second_worksheet.iter_rows(min_row=second_semester['total_year_contract'], min_col=start,
-                                            max_row=second_semester['total_year_contract'], max_col=end):
+                                              max_row=second_semester['total_year_contract'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '={0}{1}+\'I1\'!{0}{2}'.format(get_column_letter(cell.column),
-                                                          second_semester['semester_contract'],
-                                                          first_semester['semester_contract'])
+                                                                second_semester['semester_contract'],
+                                                                first_semester['semester_contract'])
                 except:
                     pass
 
         for row in second_worksheet.iter_rows(min_row=second_semester['total_year'], min_col=start,
-                                            max_row=second_semester['total_year'], max_col=end):
+                                              max_row=second_semester['total_year'], max_col=end):
             for cell in row:
                 try:
                     cell.data_type = 'f'
                     cell.value = '={0}{1}+{0}{2}'.format(get_column_letter(cell.column),
-                                                          second_semester['total_year_contract'],
-                                                          second_semester['total_year_budget'])
+                                                         second_semester['total_year_contract'],
+                                                         second_semester['total_year_budget'])
                 except:
                     pass
 
+    def _insert_row_with_style(self, worksheet, row):
+        # вставляем строку
+        worksheet.insert_rows(row, 1)
+
+        # копируем стили
+        for i, cell in enumerate(
+                worksheet.iter_cols(min_col=1, min_row=row + 1, max_row=row + 1),
+                1):
+            copy_cell = worksheet.cell(row, i)
+            if cell[0].data_type == 'f':
+                trans = Translator(cell[0].value, str(cell[0].column_letter) + str(cell[0].row - 1))
+                copy_cell.value = str(
+                    trans.translate_formula(str(copy_cell.column_letter) + str(copy_cell.row)))
+                cell[0].value = str(
+                    trans.translate_formula(str(cell[0].column_letter) + str(cell[0].row)))
+            copy_cell.font = copy(cell[0].font)
+            copy_cell.border = copy(cell[0].border)
+            copy_cell.fill = copy(cell[0].fill)
+            copy_cell.number_format = copy(cell[0].number_format)
+            copy_cell.protection = copy(cell[0].protection)
+            copy_cell.alignment = copy(cell[0].alignment)
+
     def _fill_subject_row(self, fields, load_worksheet, plan_worksheet, load_row, plan_row, load_type, subject):
         if load_worksheet.cell(load_row, fields.filter(load_type=load_type)[1].column_in_load).value != 0:
-            # вставляем строку
-            plan_worksheet.insert_rows(plan_row, 1)
 
-            # копируем стили
-            for i, cell in enumerate(
-                    plan_worksheet.iter_cols(min_col=1, min_row=plan_row + 1, max_row=plan_row + 1),
-                    1):
-                copy_cell = plan_worksheet.cell(plan_row, i)
-                if cell[0].data_type == 'f':
-                    trans = Translator(cell[0].value, str(cell[0].column_letter) + str(cell[0].row-1))
-                    copy_cell.value = str(
-                        trans.translate_formula(str(copy_cell.column_letter) + str(copy_cell.row)))
-                    cell[0].value = str(
-                        trans.translate_formula(str(cell[0].column_letter) + str(cell[0].row)))
-                copy_cell.font = copy(cell[0].font)
-                copy_cell.border = copy(cell[0].border)
-                copy_cell.fill = copy(cell[0].fill)
-                copy_cell.number_format = copy(cell[0].number_format)
-                copy_cell.protection = copy(cell[0].protection)
-                copy_cell.alignment = copy(cell[0].alignment)
+            self._insert_row_with_style(plan_worksheet, plan_row)
 
             # вставляем данные
             plan_worksheet.cell(plan_row, 1).value = subject['Предмет']
-            #load_type: 0 - бюджет, 1 - контракт
+            # load_type: 0 - бюджет, 1 - контракт
             for field in fields.filter(load_type=load_type):
                 load_column = field.column_in_load
                 plan_column = field.column_in_plan
-                plan_worksheet.cell(plan_row, plan_column).value = load_worksheet.cell(load_row, load_column).value
+                if load_column != 0:
+                    plan_worksheet.cell(plan_row, plan_column).value = load_worksheet.cell(load_row, load_column).value
 
 
 class Field(models.Model):
@@ -561,7 +669,7 @@ class Cell(models.Model):
 
 
 class UploadFile(models.Model):
-    file = models.FileField(upload_to='files/%Y/%m/%d')
+    file = models.FileField(upload_to='files/loads/%Y/%m/%d')
     owner = models.ForeignKey('builder_auth.CustomUser', null=True, default=None, on_delete=models.SET_NULL)
 
     def convert_file_to_xlsx(self):
@@ -574,6 +682,11 @@ class UploadFile(models.Model):
 
         elif not str(self.file).endswith('xlsx'):
             raise ValueError('Not Excel file')
+
+
+class PlanFile(models.Model):
+    file = models.FileField(upload_to='files/plans/%Y/%m/%d')
+    owner = models.ForeignKey('builder_auth.CustomUser', null=True, default=None, on_delete=models.SET_NULL)
 
 
 class SubjectManager(models.Manager):
@@ -589,11 +702,14 @@ class SubjectManager(models.Manager):
         semester = 0
         for row in worksheet.iter_rows(min_col=1, min_row=1):
             for col in row:
-                if col.value == 'Курс':
-                    course = col.column
-                if col.value == 'Семестр':
-                    semester = col.column
-        return (course, semester)
+                try:
+                    if col.value == 'Курс':
+                        course = col.column
+                    if col.value == 'Семестр':
+                        semester = col.column
+                except:
+                    continue
+        return course, semester
 
     def set_objects_from_excel(self, path, owner):
 

@@ -18,14 +18,6 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     model = CustomUser
 
-    # fieldsets = UserAdmin.fieldsets + (
-    #     ('Pizza', {'fields': (
-    #         'favourite_pizza',
-    #         'our_note',
-    #     )}),
-    # )
-
-
     list_display = (
         'username',
         'first_name',
