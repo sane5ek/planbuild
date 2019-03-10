@@ -2,33 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9cb2b58d-273a-4484-9005-744c9b326713" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/builder/migrations/0003_planfile.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/builder/migrations/0004_auto_20181215_2313.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/builder/templates/builder/fields.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/builder/templates/builder/requests.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/builder/templates/builder/search.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/builder_auth/templates/builder_auth/edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PlanBuild.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PlanBuild.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PlanBuild/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/PlanBuild/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PlanBuild/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/PlanBuild/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/builder/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/fixtures/initial.json" beforeDir="false" afterPath="$PROJECT_DIR$/builder/fixtures/initial.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/builder/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/builder/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/builder/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/static/builder/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/builder/static/builder/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/templates/builder/_base.html" beforeDir="false" afterPath="$PROJECT_DIR$/builder/templates/builder/_base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/templates/builder/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/builder/templates/builder/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/builder/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/builder/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/builder/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder_auth/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/builder_auth/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder_auth/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/builder_auth/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder_auth/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/builder_auth/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder_auth/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/builder_auth/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builder_auth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/builder_auth/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/Template.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/TemplateCopy.xls" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/httpRequests/" />
@@ -58,68 +36,50 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/builder/views.py">
+        <entry file="file://$PROJECT_DIR$/builder/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
-              <caret line="206" column="76" selection-start-line="206" selection-start-column="76" selection-end-line="206" selection-end-column="76" />
-              <folding>
-                <element signature="e#0#45#0" expanded="true" />
-                <marker date="1544904671635" expanded="true" signature="2101:2470" ph="..." />
-              </folding>
+            <state relative-caret-position="168">
+              <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/builder/static/builder/css/styles.css">
+        <entry file="file://$PROJECT_DIR$/PlanBuild/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="85" column="12" selection-start-line="85" selection-start-column="12" selection-end-line="85" selection-end-column="12" />
+            <state relative-caret-position="24">
+              <caret line="1" column="38" selection-start-line="1" selection-start-column="38" selection-end-line="1" selection-end-column="38" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/builder/templates/builder/requests.html">
+        <entry file="file://$PROJECT_DIR$/requirements.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="115" selection-start-line="7" selection-start-column="115" selection-end-line="7" selection-end-column="115" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/builder/templates/builder/search.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="39" column="53" selection-start-line="39" selection-start-column="53" selection-end-line="39" selection-end-column="53" />
+            <state relative-caret-position="168">
+              <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/builder/models.py">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="36" column="33" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-                <element signature="e#1643#1730#0" />
-                <element signature="e#1763#1908#0" />
-                <element signature="e#1941#2090#0" />
-                <element signature="e#2132#2284#0" />
-                <element signature="e#2325#2476#0" />
-                <element signature="e#2520#28824#0" />
-                <element signature="e#28858#29529#0" />
-              </folding>
+            <state relative-caret-position="-601">
+              <caret line="60" column="14" lean-forward="true" selection-start-line="60" selection-start-column="14" selection-end-line="60" selection-end-column="14" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/builder/__init__.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/builder_auth/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
+            <state relative-caret-position="288">
               <caret line="12" selection-start-line="12" selection-end-line="12" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
@@ -131,8 +91,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/builder_auth/admin.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-128">
-              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+            <state relative-caret-position="312">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -143,8 +103,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/builder/admin.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="885">
-              <caret line="59" column="16" lean-forward="true" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
+            <state relative-caret-position="1416">
+              <caret line="59" column="16" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -160,7 +120,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/builder/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
+            <state relative-caret-position="336">
               <caret line="14" column="37" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
@@ -184,6 +144,7 @@
       <find>Field.objects</find>
       <find>now</find>
       <find>click</find>
+      <find>xw</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -198,7 +159,6 @@
         <option value="$PROJECT_DIR$/PlanBuild/urls.py" />
         <option value="$PROJECT_DIR$/builder_auth/models.py" />
         <option value="$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/debug_panel/middleware.py" />
-        <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/PlanBuild/settings.py" />
         <option value="$PROJECT_DIR$/builder/templates/builder/index.html" />
         <option value="$PROJECT_DIR$/builder/utils.py" />
@@ -213,8 +173,9 @@
         <option value="$PROJECT_DIR$/builder/templates/builder/requests.html" />
         <option value="$PROJECT_DIR$/builder/static/builder/css/styles.css" />
         <option value="$PROJECT_DIR$/builder/views.py" />
-        <option value="$PROJECT_DIR$/builder/models.py" />
         <option value="$PROJECT_DIR$/builder/admin.py" />
+        <option value="$PROJECT_DIR$/builder/models.py" />
+        <option value="$PROJECT_DIR$/requirements.txt" />
       </list>
     </option>
   </component>
@@ -229,73 +190,18 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="PlanBuild" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlanBuild" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlanBuild" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlanBuild" type="462c0819:PsiDirectoryNode" />
-              <item name="builder" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlanBuild" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlanBuild" type="462c0819:PsiDirectoryNode" />
-              <item name="builder" type="462c0819:PsiDirectoryNode" />
-              <item name="fixtures" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlanBuild" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlanBuild" type="462c0819:PsiDirectoryNode" />
-              <item name="builder" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlanBuild" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlanBuild" type="462c0819:PsiDirectoryNode" />
-              <item name="builder" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="builder" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlanBuild" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlanBuild" type="462c0819:PsiDirectoryNode" />
-              <item name="builder" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="builder" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlanBuild" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlanBuild" type="462c0819:PsiDirectoryNode" />
-              <item name="builder" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlanBuild" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlanBuild" type="462c0819:PsiDirectoryNode" />
-              <item name="builder" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="builder" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlanBuild" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlanBuild" type="462c0819:PsiDirectoryNode" />
-              <item name="builder_auth" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlanBuild" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlanBuild" type="462c0819:PsiDirectoryNode" />
-              <item name="PlanBuild" type="462c0819:PsiDirectoryNode" />
+              <item name="planbuild" type="b2602c69:ProjectViewProjectNode" />
+              <item name="planbuild" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -304,7 +210,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="reference.idesettings.debugger.python" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="PyDebuggerOptionsProvider">
     <option name="mySupportGeventDebugging" value="true" />
@@ -337,9 +243,9 @@
         <env name="DJANGO_SETTINGS_MODULE" value="PlanBuild.settings" />
         <env name="PYCHARM_DEBUG" value="True" />
       </envs>
-      <option name="SDK_HOME" value="D:\Programming\VirtualEnvs\plan-env\Scripts\python.exe" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="launchJavascriptDebuger" value="false" />
@@ -375,6 +281,9 @@
       <workItem from="1544814187434" duration="5332000" />
       <workItem from="1544865441374" duration="19928000" />
       <workItem from="1544902856656" duration="2236000" />
+      <workItem from="1552245663949" duration="44000" />
+      <workItem from="1552245839812" duration="362000" />
+      <workItem from="1552246257078" duration="750000" />
     </task>
     <task id="LOCAL-00001" summary="add subjects filling feature (working, but without courses and diplomas)">
       <created>1544385235723</created>
@@ -387,18 +296,17 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="85727000" />
+    <option name="totallyTimeSpent" value="86883000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28971255" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3035579" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32872504" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.35176653" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3504" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39938557" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -432,41 +340,11 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/openpyxl/worksheet/worksheet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10260">
-          <caret line="684" column="8" selection-start-line="684" selection-start-column="8" selection-end-line="684" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/openpyxl/cell/cell.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="93" column="6" selection-start-line="93" selection-start-column="6" selection-end-line="93" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/django/core/handlers/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1710">
-          <caret line="124" selection-start-line="124" selection-end-line="124" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/django/core/handlers/exception.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/openpyxl/utils/cell.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1740">
-          <caret line="116" column="4" selection-start-line="116" selection-start-column="4" selection-end-line="116" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/openpyxl/worksheet/worksheet.py" />
+    <entry file="file://$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/openpyxl/cell/cell.py" />
+    <entry file="file://$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/django/core/handlers/base.py" />
+    <entry file="file://$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/django/core/handlers/exception.py" />
+    <entry file="file://$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/openpyxl/utils/cell.py" />
     <entry file="file://$PROJECT_DIR$/builder_auth/tests.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -480,33 +358,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="36" selection-start-line="5" selection-start-column="36" selection-end-line="5" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PlanBuild/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2265">
-          <caret line="151" column="37" selection-start-line="151" selection-start-column="37" selection-end-line="151" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" />
     <entry file="file://$PROJECT_DIR$/PlanBuild/wsgi.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/debug_panel/middleware.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/debug_panel/middleware.py" />
     <entry file="file://$PROJECT_DIR$/builder_auth/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -517,13 +373,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/django/forms/formsets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6135">
-          <caret line="417" column="4" selection-start-line="417" selection-start-column="4" selection-end-line="417" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../VirtualEnvs/plan-env/Lib/site-packages/django/forms/formsets.py" />
     <entry file="file://$PROJECT_DIR$/builder_auth/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="825">
@@ -549,9 +399,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/builder_auth/templates/builder_auth/register.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/builder/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/builder/static/builder/css/dropzone.css">
@@ -611,41 +458,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/builder/templates/builder/search.html">
+    <entry file="file://$PROJECT_DIR$/builder/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="39" column="53" selection-start-line="39" selection-start-column="53" selection-end-line="39" selection-end-column="53" />
+        <state relative-caret-position="4632">
+          <caret line="205" column="31" lean-forward="true" selection-start-line="205" selection-start-column="31" selection-end-line="205" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/builder/static/builder/css/styles.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
+        <state relative-caret-position="2040">
           <caret line="85" column="12" selection-start-line="85" selection-start-column="12" selection-end-line="85" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/builder/templates/builder/requests.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
+        <state relative-caret-position="168">
           <caret line="7" column="115" selection-start-line="7" selection-start-column="115" selection-end-line="7" selection-end-column="115" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/builder/views.py">
+    <entry file="file://$PROJECT_DIR$/builder/templates/builder/search.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="206" column="76" selection-start-line="206" selection-start-column="76" selection-end-line="206" selection-end-column="76" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-            <marker date="1544904671635" expanded="true" signature="2101:2470" ph="..." />
-          </folding>
+        <state relative-caret-position="936">
+          <caret line="39" column="53" selection-start-line="39" selection-start-column="53" selection-end-line="39" selection-end-column="53" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/PlanBuild/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="1" column="38" selection-start-line="1" selection-start-column="38" selection-end-line="1" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/builder/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/builder_auth/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
+        <state relative-caret-position="288">
           <caret line="12" selection-start-line="12" selection-end-line="12" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
@@ -655,8 +511,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/builder_auth/admin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-128">
-          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        <state relative-caret-position="312">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
@@ -665,8 +521,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/builder/admin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="59" column="16" lean-forward="true" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
+        <state relative-caret-position="1416">
+          <caret line="59" column="16" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
@@ -678,7 +534,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/builder/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
+        <state relative-caret-position="336">
           <caret line="14" column="37" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
@@ -686,20 +542,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../pb-env/Lib/site-packages/openpyxl/worksheet/worksheet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="979">
+          <caret line="294" selection-start-line="294" selection-end-line="294" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/builder/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="36" column="33" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-            <element signature="e#1643#1730#0" />
-            <element signature="e#1763#1908#0" />
-            <element signature="e#1941#2090#0" />
-            <element signature="e#2132#2284#0" />
-            <element signature="e#2325#2476#0" />
-            <element signature="e#2520#28824#0" />
-            <element signature="e#28858#29529#0" />
-          </folding>
+        <state relative-caret-position="168">
+          <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-601">
+          <caret line="60" column="14" lean-forward="true" selection-start-line="60" selection-start-column="14" selection-end-line="60" selection-end-column="14" />
         </state>
       </provider>
     </entry>

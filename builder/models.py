@@ -1,19 +1,15 @@
-from django.db import models
-from django.utils import timezone
-from django.core.files import File
-
-from .utils import get_absolute_path
+import os
+from copy import copy
 
 import openpyxl as xlsx
-from openpyxl.formula.translate import Translator
 import pyexcel as p
+from django.core.files import File
+from django.db import models
+from django.utils import timezone
+from openpyxl.formula.translate import Translator
 from openpyxl.utils import get_column_letter
-import xlwings as xw
-from xlwings.constants import InsertShiftDirection
 
-from copy import copy
-import re
-import os
+from .utils import get_absolute_path
 
 
 # Create your models here.
